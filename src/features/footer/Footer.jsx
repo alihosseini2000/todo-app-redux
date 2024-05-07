@@ -16,8 +16,8 @@ export default function Footer() {
             </div>
 
             <RemainingTodos count={1} />
-            <StatusFilter value={'all'} />
-            <ColorFilters value={[]} />
+            <StatusFilter />
+            <ColorFilters />
         </footer>
     )
 }

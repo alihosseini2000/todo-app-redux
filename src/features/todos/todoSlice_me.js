@@ -116,9 +116,8 @@ export const selectTodoEntities = (state) => state.todos.entities;
 
 export const selectTodosIds = (state) => Object.keys(state.todos.entities);
 
-const selectTodos = createSelector(
-  selectTodosIds,
-  (todoEntities) => Object.values(todoEntities)
+const selectTodos = createSelector(selectTodosIds, (todoEntities) =>
+  Object.values(todoEntities)
 );
 
 const selectFilteredTodos = createSelector(
@@ -134,10 +133,10 @@ const selectFilteredTodos = createSelector(
 
     const showCompleted = status === StatusFilters.Completed;
     return todos.filter((todo) => {
-      const statusFilters = showAll || todo.completed === showCompleted;
+      const statusFilter = showAll || todo.completed === showCompleted;
       const colorsFilter = colors.length === 0 || colors.includes(todo.color);
 
-      return statusFilters && colorsFilter;
+      return statusFilter && colorsFilter;
     });
   }
 );
@@ -161,9 +160,9 @@ const selectFilteredTodos = createSelector(
 //   })
 // }
 
-export const selectFilterdTodoIds = createSelector(
+export const selectFilteredTodoIds = createSelector(
   selectFilteredTodos,
-  (filteredTodos) => filteredTodos.map((todo) => todo.id)
+  (filteredTodos) => filteredTodos.map((todo) => console.log(todo))
 );
 
 // export const selectFilterdTodoIds = (state) => {

@@ -1,38 +1,34 @@
-import { useDispatch, useSelector } from "react-redux";
-import {
-  StatusFilters,
-  changedSetatusFilter,
-  selectStausFilter,
-} from "../filter/filtersSlice";
+import { useSelector, useDispatch } from 'react-redux'
+import { statusFilterChanged, selectStatusFilter, StatusFilters } from '../filter/filterSlice'
 
 const StatusFilter = () => {
-  const status = useSelector(selectStausFilter);
+    const status = useSelector(selectStatusFilter)
 
-  const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
-  function handleChangeStatus(status) {
-    dispatch(changedSetatusFilter(status));
-  }
+    function handlChangeStatus(status) {
+        dispatch(statusFilterChanged(status))
+    }
 
-  const renderedFilters = Object.keys(StatusFilters).map((key) => {
-    const value = StatusFilters[key];
-    const className = value === status ? "selected" : "";
+    const renderedFilters = Object.keys(StatusFilters).map((key) => {
+        const value = StatusFilters[key]
+        const className = value === status ? 'selected' : ''
+
+        return (
+            <li key={value}>
+                <button className={className} onClick={() => handlChangeStatus(value)}>
+                    {key}
+                </button>
+            </li>
+        )
+    })
 
     return (
-      <li key={value}>
-        <button className={className} onClick={() => handleChangeStatus(value)}>
-          {key}
-        </button>
-      </li>
-    );
-  });
+        <div className="filters statusFilters">
+            <h5>Filter by Status</h5>
+            <ul>{renderedFilters}</ul>
+        </div>
+    )
+}
 
-  return (
-    <div className="filters statusFilters">
-      <h5>Filter by Status</h5>
-      <ul>{renderedFilters}</ul>
-    </div>
-  );
-};
-
-export default StatusFilter;
+export default StatusFilter
