@@ -574,7 +574,10 @@ ul.todo-list {
     bottom: 10px;
   }
 }
-
+form.colorSelection{
+  display: flex;
+  flex-direction: column;
+}
 form.colorSelection label {
   margin: 0;
 }

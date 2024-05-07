@@ -1,15 +1,21 @@
-const RemainingTodos = ({ count }) => {
+import { useSelector } from "react-redux";
+import { selectTodoEntities } from "../todos/todosSlice";
 
-    
+const RemainingTodos = () => {
+  const count = useSelector((state) => {
+    const todos = Object.values(selectTodoEntities(state)).filter((todo) => !todo.completed);
 
-    const suffix = count === 1 ? '' : 's'
+    return todos.length;
+  });
 
-    return (
-        <div className="todo-count">
-            <h5>Remaining Todos</h5>
-            <strong>{count}</strong> item{suffix} left
-        </div>
-    )
-}
+  const suffix = count === 1 ? "" : "s";
 
-export default RemainingTodos
+  return (
+    <div className="todo-count">
+      <h5>Remaining Todos</h5>
+      <strong>{count}</strong> item{suffix} left
+    </div>
+  );
+};
+
+export default RemainingTodos;

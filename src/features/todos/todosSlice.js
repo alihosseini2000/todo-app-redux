@@ -1,7 +1,8 @@
 /* eslint-disable default-case */
 import { produce } from "immer";
-import { createSelector } from "reselect";
+import { createSelector } from 'reselect'
 import { StatusFilters } from "../filter/filterSlice";
+
 const initState = {
   entities: {
     1: { id: 1, text: "Deign ui", completed: true, color: "red" },
@@ -26,6 +27,23 @@ const todosReducer = produce((state, action) => {
     case "todos/todoDeleted":
       const deletedTodoId = action.payload;
       delete state.entities[deletedTodoId];
+      break;
+    case "todos/markAllCompleted":
+      Object.values(state.entities).forEach((todo) => {
+        state.entities[todo.id].completed = true;
+      });
+      break;
+    case "todos/clearCompleted":
+      Object.values(state.entities).forEach((todo) => {
+        if (todo.completed) {
+          delete state.entities[todo.id];
+        }
+      });
+      break
+    case "todos/colorChanged":
+      const { color, id } = action.payload;
+      state.entities[id].color = color;
+      break;
   }
 }, initState);
 
@@ -46,11 +64,25 @@ export const todoDeleted = (todoId) => ({
   payload: todoId,
 });
 
-export const selectTodosIds = (state) => Object.keys(state.todos.entities);
+export const markAllCompleted = () => ({
+  type: "todos/markAllCompleted",
+});
+export const clearCompleted = () => ({
+  type: "todos/clearCompleted",
+});
+
+export const colorChanged = (todoId , color) =>({
+  type: "todos/colorChanged",
+  payload:{
+    id: todoId , color
+  }
+})
+
+export const selectTodosIds = (state) => Object.values(state.todos.entities);
 
 export const selectTodoEntities = (state) => state.todos.entities;
 
-const selectTodos = createSelector(selectTodosIds, (todoEntities) =>
+const selectTodos = createSelector(selectTodosIds, (todoEntities) => 
   Object.values(todoEntities)
 );
 
@@ -77,5 +109,5 @@ const selectFilteredTodos = createSelector(
 
 export const selectFilterdTodoIds = createSelector(
   selectFilteredTodos,
-  (filteredTodos) => filteredTodos.map((todo) => todo)
+  (filteredTodos) => filteredTodos.map((todo) => todo.id)
 );

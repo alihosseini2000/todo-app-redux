@@ -1,34 +1,39 @@
-import { useSelector, useDispatch } from 'react-redux'
-import { statusFilterChanged, selectStatusFilter, StatusFilters } from '../filter/filterSlice'
+import { useSelector, useDispatch } from "react-redux";
+import {
+  statusFilterChanged,
+  selectStatusFilter,
+  StatusFilters,
+} from "../filter/filterSlice";
+import { selectTodoEntities } from "../todos/todosSlice";
 
 const StatusFilter = () => {
-    const status = useSelector(selectStatusFilter)
+  const status = useSelector(selectStatusFilter);
 
-    const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-    function handlChangeStatus(status) {
-        dispatch(statusFilterChanged(status))
-    }
+  function handlChangeStatus(status) {
+    dispatch(statusFilterChanged(status));
+  }
 
-    const renderedFilters = Object.keys(StatusFilters).map((key) => {
-        const value = StatusFilters[key]
-        const className = value === status ? 'selected' : ''
-
-        return (
-            <li key={value}>
-                <button className={className} onClick={() => handlChangeStatus(value)}>
-                    {key}
-                </button>
-            </li>
-        )
-    })
+  const renderedFilters = Object.keys(StatusFilters).map((key) => {
+    const value = StatusFilters[key];
+    const className = value === status ? "selected" : "";
 
     return (
-        <div className="filters statusFilters">
-            <h5>Filter by Status</h5>
-            <ul>{renderedFilters}</ul>
-        </div>
-    )
-}
+      <li key={value}>
+        <button className={className} onClick={() => handlChangeStatus(value)}>
+          {key}
+        </button>
+      </li>
+    );
+  });
 
-export default StatusFilter
+  return (
+    <div className="filters statusFilters">
+      <h5>Filter by Status</h5>
+      <ul>{renderedFilters}</ul>
+    </div>
+  );
+};
+
+export default StatusFilter;
